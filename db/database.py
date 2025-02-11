@@ -1,11 +1,13 @@
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-# החלף את DATABASE_URL בהתאם לחיבור שלך ל-PostgreSQL
-DATABASE_URL = 'postgresql://postgres:postgresql@localhost:5432/db_test1'
-# אם זה בתוך דוקר, השתמש בזה
-# DATABASE_URL = 'postgresql://postgres:postgresql@db:5432/db_test1'
+# קריאה למתני סביבה, ב-Railway המשתנה יהיה DATABASE_URL
+DATABASE_URL = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise ValueError("DATABASE_URL must be set in the environment variables")
 
 # יצירת אובייקט engine
 engine = create_engine(DATABASE_URL)
@@ -16,4 +18,5 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 # יצירת Base כדי להשתמש בה כדי להגדיר את הטבלאות
 Base = declarative_base()
 
+# יצירת הטבלאות אם לא קיימות
 Base.metadata.create_all(bind=engine)
