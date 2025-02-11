@@ -1,5 +1,5 @@
 # from models.model import allocation
-import requests
+# import requests
 from DAL import donor_repo
 from typing import List
 from models.donor_schema import DonorSchema
